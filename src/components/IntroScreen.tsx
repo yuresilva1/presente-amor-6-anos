@@ -13,8 +13,6 @@ export default function IntroScreen({ onStart }: Props) {
   const [visibleLines, setVisibleLines] = useState<number[]>([]);
   const [showButton, setShowButton] = useState(false);
   const [exiting, setExiting] = useState(false);
-  const [daysTotal, setDaysTotal] = useState(0);
-
   const starsRef = useRef(
     Array.from({ length: 80 }).map(() => ({
       top: Math.random() * 100,
@@ -30,50 +28,9 @@ export default function IntroScreen({ onStart }: Props) {
     const timers = lines.map((line, i) =>
       setTimeout(() => setVisibleLines(prev => [...prev, i]), line.delay * 1000)
     );
-    const btnTimer = setTimeout(() => setShowButton(true), 9000); // Increased delay due to animation
+    const btnTimer = setTimeout(() => setShowButton(true), 6800);
     return () => { timers.forEach(clearTimeout); clearTimeout(btnTimer); };
   }, []);
-
-  // Fast Counter Animation
-  useEffect(() => {
-    if (visibleLines.includes(1)) {
-      let start = performance.now();
-      const duration = 5000; // 5 seconds
-      const target = 2191; // Approx 6 years in days
-      let rafId: number;
-
-      const animate = (time: number) => {
-        let progress = (time - start) / duration;
-        if (progress > 1) progress = 1;
-        
-        // Easing out easeOutExpo
-        const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        const current = Math.floor(target * easeOut);
-        setDaysTotal(current);
-        
-        if (progress < 1) {
-          rafId = requestAnimationFrame(animate);
-        }
-      };
-      rafId = requestAnimationFrame(animate);
-
-      return () => cancelAnimationFrame(rafId);
-    }
-  }, [visibleLines]);
-
-  const years = Math.floor(daysTotal / 365);
-  const remainingAfterYears = daysTotal % 365;
-  const months = Math.floor(remainingAfterYears / 30);
-  const days = remainingAfterYears % 30;
-
-  const getLineText = (i: number, original: string) => {
-    if (i === 1) {
-      if (daysTotal === 0) return '0 dias...';
-      if (daysTotal === 2191) return '6 anos de amor'; // Exact 6 years without months/days clutter for final state
-      return `${years} anos, ${months} meses, ${days} dias...`;
-    }
-    return original;
-  };
 
   const handleStart = () => {
     setExiting(true);
@@ -177,7 +134,7 @@ export default function IntroScreen({ onStart }: Props) {
               >
                 <p style={{
                   fontFamily: line.font === 'script' ? 'var(--font-script)' : 'var(--font-elegant)',
-                  fontSize: i === 1 && daysTotal < 2191 ? 'clamp(1.5rem, 5vw, 2.5rem)' : line.size,
+                  fontSize: line.size,
                   fontWeight: line.font === 'elegant' ? 300 : 400,
                   color: line.font === 'script' ? 'var(--color-gold-light)' : 'var(--color-rose-light)',
                   letterSpacing: line.font === 'elegant' ? '0.06em' : '0.02em',
@@ -186,7 +143,7 @@ export default function IntroScreen({ onStart }: Props) {
                     ? '0 0 50px rgba(201,169,110,0.45)'
                     : '0 0 30px rgba(242,167,192,0.25)',
                 }}>
-                  {getLineText(i, line.text)}
+                  {line.text}
                 </p>
                 {i === 0 && (
                   <motion.div

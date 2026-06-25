@@ -1,20 +1,45 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 interface Props { onNext: () => void; }
 
 function getTimeTogether() {
-  const wedding = new Date('2020-06-26');
-  const now = new Date();
-  const diffMs = now.getTime() - wedding.getTime();
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const years = Math.floor(diffDays / 365);
-  const months = Math.floor((diffDays % 365) / 30);
-  const days = diffDays % 30;
-  return { years, months, days, totalDays: diffDays };
+  // A pedido: Exatos 6 anos (2190 dias)
+  return { totalDays: 2190 };
 }
 
 export default function Chapter1Start({ onNext }: Props) {
-  const time = getTimeTogether();
+  const [currentDays, setCurrentDays] = useState(0);
+  const timeInfo = getTimeTogether();
+
+  useEffect(() => {
+    let start = performance.now();
+    const duration = 5000; // 5 seconds
+    const target = timeInfo.totalDays;
+    let rafId: number;
+
+    const animate = (time: number) => {
+      let progress = (time - start) / duration;
+      if (progress > 1) progress = 1;
+      
+      // Easing out easeOutExpo
+      const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const current = Math.floor(target * easeOut);
+      setCurrentDays(current);
+      
+      if (progress < 1) {
+        rafId = requestAnimationFrame(animate);
+      }
+    };
+    rafId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(rafId);
+  }, [timeInfo.totalDays]);
+
+  const years = Math.floor(currentDays / 365);
+  const months = Math.floor((currentDays % 365) / 30);
+  const days = currentDays % 30;
+
 
   return (
     <div style={{
@@ -91,9 +116,9 @@ export default function Chapter1Start({ onNext }: Props) {
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(1.5rem, 5vw, 4rem)', flexWrap: 'wrap' }}>
             {[
-              { value: time.years, label: 'Anos' },
-              { value: time.months, label: 'Meses' },
-              { value: time.days, label: 'Dias' },
+              { value: years, label: 'Anos' },
+              { value: months, label: 'Meses' },
+              { value: days, label: 'Dias' },
             ].map((item, idx) => (
               <motion.div
                 key={item.label}
@@ -134,7 +159,7 @@ export default function Chapter1Start({ onNext }: Props) {
               color: 'var(--color-text-muted)', fontSize: '0.95rem', fontStyle: 'italic',
             }}
           >
-            {time.totalDays.toLocaleString('pt-BR')} dias de amor, cumplicidade e crescimento juntos
+            {currentDays.toLocaleString('pt-BR')} dias de amor, cumplicidade e crescimento juntos
           </motion.p>
         </div>
       </motion.div>
