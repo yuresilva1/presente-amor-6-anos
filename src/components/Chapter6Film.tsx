@@ -39,17 +39,17 @@ export default function Chapter6Film({ onNext }: Props) {
   const togglePlay = () => setIsPlaying(!isPlaying);
 
   const nextVideo = () => {
-    if (currentIndex < videos.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setIsPlaying(true);
-    } else {
-      onNext();
-    }
+    // Loop de volta para o primeiro vídeo para continuar tocando até a música acabar!
+    setCurrentIndex(prev => (prev + 1) % videos.length);
+    setIsPlaying(true);
   };
 
   const prevVideo = () => {
     if (currentIndex > 0) {
       setCurrentIndex(prev => prev - 1);
+      setIsPlaying(true);
+    } else {
+      setCurrentIndex(videos.length - 1);
       setIsPlaying(true);
     }
   };
@@ -57,8 +57,8 @@ export default function Chapter6Film({ onNext }: Props) {
   return (
     <div style={{ minHeight: '100vh', background: '#0a0507', padding: '2rem 0', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
       
-      {/* Background Audio (Hidden) */}
-      <audio ref={audioRef} src="/audio/musica.mp3" loop />
+      {/* Background Audio (Hidden) - Quando a música acaba, pula pro final! */}
+      <audio ref={audioRef} src="/audio/musica.mp3" onEnded={onNext} />
 
       <AnimatePresence mode="wait">
         
