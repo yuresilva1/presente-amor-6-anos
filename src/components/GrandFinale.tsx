@@ -164,15 +164,17 @@ export default function GrandFinale() {
                   background: 'linear-gradient(135deg, rgba(212,96,122,0.22), rgba(201,169,110,0.22))',
                   border: '1px solid rgba(242,167,192,0.45)',
                   borderRadius: '50px',
-                  padding: '1.2rem 3.5rem',
+                  padding: 'clamp(1.5rem, 4vw, 2rem) clamp(2.5rem, 8vw, 4rem)',
                   color: 'var(--color-rose-light)',
                   fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
+                  fontSize: 'clamp(1.2rem, 3.5vw, 1.8rem)',
                   fontWeight: 500,
                   letterSpacing: '0.06em',
                   cursor: 'pointer',
                   backdropFilter: 'blur(20px)',
                   transition: 'all 0.5s cubic-bezier(0.4,0,0.2,1)',
+                  width: '90%',
+                  maxWidth: '400px'
                 }}
                 whileHover={{
                   scale: 1.06,
@@ -347,13 +349,13 @@ export default function GrandFinale() {
                           onChange={(e) => handleVaultChange(index, e.target.value)}
                           onKeyDown={(e) => handleKeyDown(index, e)}
                           style={{
-                            width: '50px', height: '60px',
+                            width: 'clamp(50px, 15vw, 70px)', height: 'clamp(60px, 18vw, 85px)',
                             background: 'rgba(0,0,0,0.3)',
                             border: isShaking ? '1px solid rgba(255,0,0,0.4)' : '1px solid rgba(242,167,192,0.3)',
                             borderRadius: '12px',
                             color: 'var(--color-rose-light)',
                             fontFamily: 'var(--font-display)',
-                            fontSize: '2rem', textAlign: 'center',
+                            fontSize: 'clamp(2rem, 6vw, 3rem)', textAlign: 'center',
                             outline: 'none', transition: 'all 0.2s'
                           }}
                           onFocus={(e) => e.target.style.borderColor = 'var(--color-gold)'}

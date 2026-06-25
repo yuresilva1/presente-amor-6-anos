@@ -92,12 +92,12 @@ export default function Chapter6Film({ onNext }: Props) {
               style={{
                 background: 'linear-gradient(135deg, rgba(201,169,110,0.2) 0%, rgba(242,167,192,0.2) 100%)',
                 border: '1px solid rgba(201,169,110,0.4)', borderRadius: '50px',
-                padding: '1rem 3rem', color: 'var(--color-gold-light)',
-                fontFamily: 'var(--font-elegant)', fontSize: '1.1rem', cursor: 'pointer',
+                padding: 'clamp(1.2rem, 3vw, 1.5rem) clamp(3rem, 6vw, 4rem)', color: 'var(--color-gold-light)',
+                fontFamily: 'var(--font-elegant)', fontSize: 'clamp(1.2rem, 3vw, 1.4rem)', cursor: 'pointer',
                 letterSpacing: '0.1em', display: 'inline-flex', alignItems: 'center', gap: '10px'
               }}
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
               PLAY
@@ -113,7 +113,7 @@ export default function Chapter6Film({ onNext }: Props) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
             transition={{ duration: 0.8 }}
-            style={{ textAlign: 'center', padding: '2rem' }}
+            style={{ textAlign: 'center', padding: '2rem 1rem' }}
           >
             <h2 style={{
               fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3.5rem)',
@@ -129,8 +129,9 @@ export default function Chapter6Film({ onNext }: Props) {
                 style={{
                   background: 'transparent',
                   border: '1px solid rgba(255,255,255,0.2)', borderRadius: '50px',
-                  padding: '1rem 2rem', color: 'var(--color-text-muted)',
-                  fontFamily: 'var(--font-elegant)', fontSize: '1rem', cursor: 'pointer',
+                  padding: 'clamp(1rem, 2vw, 1.2rem) clamp(2rem, 4vw, 3rem)', color: 'var(--color-text-muted)',
+                  fontFamily: 'var(--font-elegant)', fontSize: 'clamp(1rem, 2.5vw, 1.1rem)', cursor: 'pointer',
+                  flex: '1 1 auto', minWidth: '200px'
                 }}
               >
                 Não, fiquei com medo
@@ -143,9 +144,10 @@ export default function Chapter6Film({ onNext }: Props) {
                 style={{
                   background: 'linear-gradient(135deg, rgba(242,167,192,0.3) 0%, rgba(201,169,110,0.3) 100%)',
                   border: '1px solid rgba(201,169,110,0.6)', borderRadius: '50px',
-                  padding: '1rem 2rem', color: 'var(--color-gold-light)',
-                  fontFamily: 'var(--font-elegant)', fontSize: '1rem', cursor: 'pointer',
-                  fontWeight: 'bold', letterSpacing: '0.05em'
+                  padding: 'clamp(1rem, 2vw, 1.2rem) clamp(2rem, 4vw, 3rem)', color: 'var(--color-gold-light)',
+                  fontFamily: 'var(--font-elegant)', fontSize: 'clamp(1rem, 2.5vw, 1.1rem)', cursor: 'pointer',
+                  fontWeight: 'bold', letterSpacing: '0.05em',
+                  flex: '1 1 auto', minWidth: '200px'
                 }}
               >
                 Sim, estou preparada
