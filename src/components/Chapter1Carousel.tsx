@@ -14,7 +14,7 @@ export default function Chapter1Start({ onNext }: Props) {
 
   useEffect(() => {
     let start = performance.now();
-    const duration = 5000; // 5 seconds
+    const duration = 2500; // 2.5 seconds (super speed)
     const target = timeInfo.totalDays;
     let rafId: number;
 
@@ -22,9 +22,7 @@ export default function Chapter1Start({ onNext }: Props) {
       let progress = (time - start) / duration;
       if (progress > 1) progress = 1;
       
-      // Easing out easeOutExpo
-      const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      const current = Math.floor(target * easeOut);
+      const current = Math.floor(target * progress);
       setCurrentDays(current);
       
       if (progress < 1) {
@@ -40,6 +38,11 @@ export default function Chapter1Start({ onNext }: Props) {
   const months = Math.floor((currentDays % 365) / 30);
   const days = currentDays % 30;
 
+
+  // Formata os números com 2 dígitos
+  const yStr = String(years).padStart(2, '0');
+  const mStr = String(months).padStart(2, '0');
+  const dStr = String(days).padStart(2, '0');
 
   return (
     <div style={{
@@ -116,9 +119,9 @@ export default function Chapter1Start({ onNext }: Props) {
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(1.5rem, 5vw, 4rem)', flexWrap: 'wrap' }}>
             {[
-              { value: years, label: 'Anos' },
-              { value: months, label: 'Meses' },
-              { value: days, label: 'Dias' },
+              { value: yStr, label: 'Anos' },
+              { value: mStr, label: 'Meses' },
+              { value: dStr, label: 'Dias' },
             ].map((item, idx) => (
               <motion.div
                 key={item.label}
@@ -129,6 +132,9 @@ export default function Chapter1Start({ onNext }: Props) {
               >
                 <div style={{
                   fontFamily: 'var(--font-display)',
+                  fontVariantNumeric: 'tabular-nums', // Mantém a largura fixa dos números
+                  minWidth: '2.5ch', // Largura mínima para 2 dígitos para evitar que a tela trema
+                  display: 'inline-block',
                   fontSize: 'clamp(3rem, 7vw, 4.5rem)',
                   fontWeight: 600,
                   background: 'linear-gradient(135deg, #c9a96e 0%, #f0d9a8 60%, #c9a96e 100%)',
