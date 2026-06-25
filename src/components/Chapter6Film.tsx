@@ -234,6 +234,7 @@ export default function Chapter6Film({ onNext }: Props) {
                     ref={videoRef}
                     src={videos[currentIndex].src}
                     playsInline
+                    autoPlay
                     onEnded={nextVideo}
                     // O volume do vídeo original fica mudo para ouvirmos a música!
                     muted={true}
