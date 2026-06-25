@@ -8,6 +8,8 @@ const videos = [
   { src: '/videos/video2.mp4', title: 'Loucuras Juntos', caption: 'Sempre rindo de tudo.' },
   { src: '/videos/video3.mp4', title: 'Zero Maturidade', caption: 'E eu não mudaria nada.' },
   { src: '/videos/video4.mp4', title: 'Nosso Jeito', caption: 'A melhor parte do meu dia é rir com você.' },
+  { src: '/videos/video5.mp4', title: 'Momentos Únicos', caption: 'Colecionando sorrisos.' },
+  { src: '/videos/video6.mp4', title: 'E as Piadas', caption: 'Sempre rindo até doer a barriga.' },
 ];
 
 export default function Chapter6Film({ onNext }: Props) {
