@@ -11,7 +11,7 @@ const videos = [
 ];
 
 export default function Chapter6Film({ onNext }: Props) {
-  const [step, setStep] = useState<'intro' | 'confirm' | 'playing'>('intro');
+  const [step, setStep] = useState<'intro' | 'confirm' | 'volume_alert' | 'playing'>('intro');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   
@@ -21,6 +21,7 @@ export default function Chapter6Film({ onNext }: Props) {
   // Auto-play / Pause logic for video
   useEffect(() => {
     if (step === 'playing' && videoRef.current) {
+      videoRef.current.muted = true; // Ensure video is always muted programmatically
       if (isPlaying) videoRef.current.play().catch(() => setIsPlaying(false));
       else videoRef.current.pause();
     }
@@ -75,14 +76,14 @@ export default function Chapter6Film({ onNext }: Props) {
               fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 5vw, 3.5rem)',
               color: 'var(--color-gold)', marginBottom: '1.5rem',
             }}>
-              Atenção!
+              Atenção
             </h2>
             <p style={{
               fontFamily: 'var(--font-elegant)', fontSize: 'clamp(1rem, 2vw, 1.2rem)',
               color: 'var(--color-rose-light)', marginBottom: '3rem',
             }}>
-              Agora é a hora da parte engraçada.<br/>
-              Tá preparada?
+              Preparei algo um pouco diferente agora.<br/>
+              Está preparada?
             </p>
             <motion.button
               onClick={() => setStep('confirm')}
@@ -136,7 +137,7 @@ export default function Chapter6Film({ onNext }: Props) {
               </motion.button>
               
               <motion.button
-                onClick={() => setStep('playing')}
+                onClick={() => setStep('volume_alert')}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
@@ -147,13 +148,60 @@ export default function Chapter6Film({ onNext }: Props) {
                   fontWeight: 'bold', letterSpacing: '0.05em'
                 }}
               >
-                Sim, bora rir!
+                Sim, estou preparada
               </motion.button>
             </div>
           </motion.div>
         )}
 
-        {/* STEP 3: PLAYING */}
+        {/* STEP 3: VOLUME ALERT */}
+        {step === 'volume_alert' && (
+          <motion.div
+            key="volume_alert"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            transition={{ duration: 0.8 }}
+            style={{ textAlign: 'center', padding: '2rem' }}
+          >
+            <motion.div
+              initial={{ rotate: -10 }}
+              animate={{ rotate: [10, -10, 10, -10, 0] }}
+              transition={{ duration: 1, delay: 0.5 }}
+              style={{ fontSize: '4rem', marginBottom: '1rem' }}
+            >
+              🔊
+            </motion.div>
+            <h2 style={{
+              fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)',
+              color: 'var(--color-gold-light)', marginBottom: '1rem',
+            }}>
+              Aumente o som!
+            </h2>
+            <p style={{
+              fontFamily: 'var(--font-elegant)', fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+              color: 'var(--color-rose-light)', marginBottom: '3rem',
+            }}>
+              Para a experiência completa...
+            </p>
+            <motion.button
+              onClick={() => setStep('playing')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                background: 'linear-gradient(135deg, rgba(201,169,110,0.3) 0%, rgba(242,167,192,0.3) 100%)',
+                border: '1px solid rgba(201,169,110,0.5)', borderRadius: '50px',
+                padding: '1rem 3rem', color: '#fff',
+                fontFamily: 'var(--font-elegant)', fontSize: '1.1rem', cursor: 'pointer',
+                letterSpacing: '0.1em'
+              }}
+            >
+              Pronto, aumentei!
+            </motion.button>
+          </motion.div>
+        )}
+
+        {/* STEP 4: PLAYING */}
         {step === 'playing' && (
           <motion.div
             key="playing"
@@ -186,7 +234,7 @@ export default function Chapter6Film({ onNext }: Props) {
                     ref={videoRef}
                     src={videos[currentIndex].src}
                     playsInline
-                    loop
+                    onEnded={nextVideo}
                     // O volume do vídeo original fica mudo para ouvirmos a música!
                     muted={true}
                     style={{
