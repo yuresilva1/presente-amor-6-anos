@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function GrandFinale() {
   const [phase, setPhase] = useState<'stars' | 'message' | 'question' | 'final'>('stars');
+  const [vaultCode, setVaultCode] = useState('');
+  const [vaultUnlocked, setVaultUnlocked] = useState(false);
   const starsRef = useRef(
     Array.from({ length: 160 }).map(() => ({
       x: Math.random() * 100,
@@ -288,9 +290,121 @@ export default function GrandFinale() {
                 color: 'var(--color-rose)',
                 textShadow: '0 0 35px rgba(242,167,192,0.45)',
               }}>
-                Seu Marido
+                Yure
               </p>
             </motion.div>
+
+            {/* SECRET VAULT */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 6, ease: [0.4, 0, 0.2, 1] }}
+              style={{ marginTop: '5rem', position: 'relative', zIndex: 10, width: '100%', maxWidth: '400px' }}
+            >
+              {!vaultUnlocked ? (
+                <div style={{
+                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(201,169,110,0.3)',
+                  borderRadius: '24px',
+                  padding: '2rem',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+                }}>
+                  <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔒</div>
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)', color: 'var(--color-gold-light)',
+                    fontSize: '1.4rem', marginBottom: '0.5rem',
+                  }}>
+                    Cofre Secreto
+                  </h3>
+                  <p style={{
+                    fontFamily: 'var(--font-elegant)', color: 'var(--color-text-muted)',
+                    fontSize: '0.9rem', marginBottom: '2rem', fontStyle: 'italic'
+                  }}>
+                    Descubra a senha para desbloquear seu presente.
+                  </p>
+                  
+                  <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+                    {[0, 1, 2, 3].map((index) => (
+                      <input
+                        key={index}
+                        id={`vault-input-${index}`}
+                        type="text"
+                        maxLength={1}
+                        value={vaultCode[index] || ''}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/[^0-9]/g, '');
+                          const newCode = vaultCode.split('');
+                          newCode[index] = val;
+                          const finalCode = newCode.join('');
+                          setVaultCode(finalCode);
+                          
+                          if (val && index < 3) {
+                            const next = document.getElementById(`vault-input-${index + 1}`);
+                            next?.focus();
+                          }
+                          
+                          if (finalCode === '2606') {
+                            setTimeout(() => setVaultUnlocked(true), 300);
+                          }
+                        }}
+                        style={{
+                          width: '50px', height: '60px',
+                          background: 'rgba(0,0,0,0.3)',
+                          border: '1px solid rgba(242,167,192,0.3)',
+                          borderRadius: '12px',
+                          color: 'var(--color-rose-light)',
+                          fontFamily: 'var(--font-display)',
+                          fontSize: '2rem', textAlign: 'center',
+                          outline: 'none', transition: 'all 0.3s'
+                        }}
+                        onFocus={(e) => e.target.style.borderColor = 'var(--color-gold)'}
+                        onBlur={(e) => e.target.style.borderColor = 'rgba(242,167,192,0.3)'}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  style={{
+                    background: 'linear-gradient(145deg, rgba(201,169,110,0.15), rgba(242,167,192,0.15))',
+                    border: '1px solid rgba(201,169,110,0.6)',
+                    borderRadius: '24px',
+                    padding: '2.5rem 2rem',
+                    backdropFilter: 'blur(12px)',
+                    boxShadow: '0 0 60px rgba(201,169,110,0.2)'
+                  }}
+                >
+                  <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🎁</div>
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)', color: 'var(--color-gold)',
+                    fontSize: '1.8rem', marginBottom: '1.5rem',
+                  }}>
+                    Cofre Aberto!
+                  </h3>
+                  <div style={{
+                    background: 'rgba(0,0,0,0.4)', border: '1px dashed var(--color-rose)',
+                    padding: '1rem', borderRadius: '12px', marginBottom: '1.5rem'
+                  }}>
+                    <span style={{
+                      fontFamily: 'monospace', color: '#fff',
+                      fontSize: '1.8rem', letterSpacing: '0.2em', fontWeight: 'bold'
+                    }}>
+                      YURELINDAO
+                    </span>
+                  </div>
+                  <p style={{
+                    fontFamily: 'var(--font-elegant)', color: 'var(--color-champagne)',
+                    fontSize: '1.1rem', lineHeight: 1.6,
+                  }}>
+                    Envie esse código para o seu marido que você vai receber um presente dentro de 3 horas.
+                  </p>
+                </motion.div>
+              )}
+            </motion.div>
+
           </motion.div>
         )}
       </AnimatePresence>
