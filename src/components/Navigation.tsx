@@ -13,6 +13,7 @@ const chapters: Array<{ id: Chapter; label: string }> = [
   { id: 'chapter3', label: 'Carta' },
   { id: 'chapter4', label: 'Galeria' },
   { id: 'chapter5', label: 'Significado' },
+  { id: 'chapter6', label: 'Filme' },
   { id: 'finale', label: 'Final' },
 ];
 

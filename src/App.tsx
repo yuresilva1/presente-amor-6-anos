@@ -7,14 +7,15 @@ import SpecialCards from './components/SpecialCards';
 import Chapter3LoveLetter from './components/Chapter3LoveLetter';
 import Chapter4Gallery from './components/Chapter4Gallery';
 import Chapter5WordOrbit from './components/Chapter5WordOrbit';
+import Chapter6Film from './components/Chapter6Film';
 import GrandFinale from './components/GrandFinale';
 import Navigation from './components/Navigation';
 import ParticleBackground from './components/ParticleBackground';
 import './index.css';
 
-export type Chapter = 'intro' | 'chapter1' | 'chapter2' | 'special' | 'chapter3' | 'chapter4' | 'chapter5' | 'finale';
+export type Chapter = 'intro' | 'chapter1' | 'chapter2' | 'special' | 'chapter3' | 'chapter4' | 'chapter5' | 'chapter6' | 'finale';
 
-const chapterOrder: Chapter[] = ['intro','chapter1','chapter2','special','chapter3','chapter4','chapter5','finale'];
+const chapterOrder: Chapter[] = ['intro','chapter1','chapter2','special','chapter3','chapter4','chapter5','chapter6','finale'];
 
 function App() {
   const [currentChapter, setCurrentChapter] = useState<Chapter>('intro');
@@ -96,6 +97,13 @@ function App() {
           </motion.div>
         )}
 
+        {currentChapter === 'chapter6' && (
+          <motion.div key="chapter6" style={{ paddingTop: '56px' }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}>
+            <Chapter6Film onNext={goToNext} />
+          </motion.div>
+        )}
         {currentChapter === 'finale' && (
           <motion.div key="finale"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }}
