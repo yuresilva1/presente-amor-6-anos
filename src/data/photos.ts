@@ -54,7 +54,7 @@ export const timelineEvents: TimelineEvent[] = [
   },
   {
     id: 3,
-    date: '26 de Junho de 2020',
+    date: '27 de Junho de 2020',
     title: 'Nosso Casamento',
     description: 'Através de um pouco de loucura e um pouco de pressão, nos unimos. Mas desde sempre eu sabia que era a coisa certa. Não tinha dúvidas que era para ser.',
     quote: '"Loucura, talvez. Mas era para ser."',
@@ -83,12 +83,12 @@ export const timelineEvents: TimelineEvent[] = [
 export const galleryPhotos: Array<Photo & { date: string }> = [
   { id: 1, src: '/photos/inicio5.png', caption: 'Onde tudo começou', date: 'O Início' },
   { id: 2, src: '/photos/mirror.jpg', caption: 'Primeiras memórias juntos', date: 'O Início' },
-  { id: 3, src: '/photos/casamento.jpg', caption: 'O começo do nosso felizes para sempre', date: '26/06/2020' },
-  { id: 4, src: '/photos/wedding.jpg', caption: 'O dia em que dissemos sim', date: '26/06/2020' },
-  { id: 5, src: '/photos/ring.jpg', caption: 'Nossa união eternizada', date: '26/06/2020' },
-  { id: 6, src: '/photos/csasmento.png', caption: 'Um dia inesquecível', date: '26/06/2020' },
-  { id: 7, src: '/photos/casamentofoto2.png', caption: 'Celebrando o amor', date: '26/06/2020' },
-  { id: 8, src: '/photos/rice.png', caption: 'Chuva de arroz e felicidade', date: '26/06/2020' },
+  { id: 3, src: '/photos/casamento.jpg', caption: 'O começo do nosso felizes para sempre', date: '27/06/2020' },
+  { id: 4, src: '/photos/wedding.jpg', caption: 'O dia em que dissemos sim', date: '27/06/2020' },
+  { id: 5, src: '/photos/ring.jpg', caption: 'Nossa união eternizada', date: '27/06/2020' },
+  { id: 6, src: '/photos/csasmento.png', caption: 'Um dia inesquecível', date: '27/06/2020' },
+  { id: 7, src: '/photos/casamentofoto2.png', caption: 'Celebrando o amor', date: '27/06/2020' },
+  { id: 8, src: '/photos/rice.png', caption: 'Chuva de arroz e felicidade', date: '27/06/2020' },
   { id: 9, src: '/photos/fotocomdavi6.png', caption: 'Nosso maior presente, Davi', date: 'Davi' },
   { id: 10, src: '/photos/familia.png', caption: 'A nossa família maravilhosa', date: 'Nossa Família' },
   { id: 11, src: '/photos/viagm2.png', caption: 'Descobrindo o mundo juntos', date: 'Viagens' },
@@ -115,7 +115,7 @@ export const filmSlides: FilmSlide[] = [
   {
     src: '/photos/wedding.jpg',
     message: 'Mas hoje é comemorado algo muito mais especial: nosso casamento.',
-    date: '26 de Junho de 2020',
+    date: '27 de Junho de 2020',
   },
   {
     src: '/photos/rice.png',

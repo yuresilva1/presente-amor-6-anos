@@ -115,7 +115,7 @@ export default function Chapter1Start({ onNext }: Props) {
             fontSize: '0.85rem', letterSpacing: '0.22em', textTransform: 'uppercase',
             marginBottom: '2.5rem',
           }}>
-            Casados desde 26 de Junho de 2020
+            Casados desde 27 de Junho de 2020
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(1.5rem, 5vw, 4rem)', flexWrap: 'wrap' }}>
             {[

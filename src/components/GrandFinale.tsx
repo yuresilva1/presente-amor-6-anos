@@ -41,7 +41,7 @@ export default function GrandFinale() {
     
     // Check if fully typed
     if (finalCode.length === 4) {
-      if (finalCode === '2606') {
+      if (finalCode === '2706') {
         setVaultErrorMsg('Acesso concedido! 💖');
         setTimeout(() => setVaultUnlocked(true), 500);
       } else {
