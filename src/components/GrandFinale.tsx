@@ -378,16 +378,22 @@ export default function GrandFinale() {
                       width: '100%'
                     }}
                   >
-                    <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🎁</div>
+                    <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🔓</div>
                     <h3 style={{
                       fontFamily: 'var(--font-display)', color: 'var(--color-gold)',
-                      fontSize: '1.8rem', marginBottom: '1.5rem',
+                      fontSize: '1.8rem', marginBottom: '0.8rem',
                     }}>
                       Cofre Aberto!
                     </h3>
+                    <p style={{
+                      fontFamily: 'var(--font-elegant)', color: 'var(--color-text-muted)',
+                      fontSize: '0.9rem', marginBottom: '1.5rem', fontStyle: 'italic',
+                    }}>
+                      Seu código exclusivo:
+                    </p>
                     <div style={{
                       background: 'rgba(0,0,0,0.4)', border: '1px dashed var(--color-rose)',
-                      padding: '1rem', borderRadius: '12px', marginBottom: '1.5rem'
+                      padding: '1.2rem', borderRadius: '12px',
                     }}>
                       <span style={{
                         fontFamily: 'monospace', color: '#fff',
@@ -396,12 +402,6 @@ export default function GrandFinale() {
                         YURELINDAO
                       </span>
                     </div>
-                    <p style={{
-                      fontFamily: 'var(--font-elegant)', color: 'var(--color-champagne)',
-                      fontSize: '1.1rem', lineHeight: 1.6,
-                    }}>
-                      Envie esse código para o seu marido que você vai receber um presente dentro de 3 horas.
-                    </p>
                   </motion.div>
                 )}
               </motion.div>
