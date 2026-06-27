@@ -16,6 +16,28 @@ export default function GrandFinale() {
   const [vaultUnlocked, setVaultUnlocked] = useState(false);
   const [vaultErrorMsg, setVaultErrorMsg] = useState('Descubra a senha para desbloquear seu presente.');
   const [isShaking, setIsShaking] = useState(false);
+
+  // Wishes state
+  const [wishes, setWishes] = useState(['', '', '']);
+  const [wishesSaved, setWishesSaved] = useState(false);
+
+  const handleSaveWishes = () => {
+    const filled = wishes.filter(w => w.trim().length > 0);
+    if (filled.length < 3) return;
+    // Salva no localStorage — o marido não verá na tela, mas ficará guardado!
+    localStorage.setItem('cofre_desejos', JSON.stringify({
+      data: new Date().toISOString(),
+      desejo1: wishes[0],
+      desejo2: wishes[1],
+      desejo3: wishes[2],
+    }));
+    // Registrado nos logs também 💖
+    console.log('%c💌 Os 3 desejos foram guardados no cofre do amor:', 'color: #f2a7c0; font-size: 16px; font-weight: bold;');
+    console.log('%cDesejo 1:', 'color: #c9a96e; font-weight: bold;', wishes[0]);
+    console.log('%cDesejo 2:', 'color: #c9a96e; font-weight: bold;', wishes[1]);
+    console.log('%cDesejo 3:', 'color: #c9a96e; font-weight: bold;', wishes[2]);
+    setWishesSaved(true);
+  };
   
   const errorMessages = [
     "Humm, não é essa... Tente de novo!",
@@ -369,39 +391,128 @@ export default function GrandFinale() {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     style={{
-                      background: 'linear-gradient(145deg, rgba(201,169,110,0.15), rgba(242,167,192,0.15))',
-                      border: '1px solid rgba(201,169,110,0.6)',
+                      background: 'linear-gradient(145deg, rgba(201,169,110,0.1), rgba(242,167,192,0.1))',
+                      border: '1px solid rgba(201,169,110,0.5)',
                       borderRadius: '24px',
                       padding: '2.5rem 2rem',
                       backdropFilter: 'blur(12px)',
-                      boxShadow: '0 0 60px rgba(201,169,110,0.2)',
-                      width: '100%'
+                      boxShadow: '0 0 60px rgba(201,169,110,0.15)',
+                      width: '100%',
+                      textAlign: 'left',
                     }}
                   >
-                    <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>🔓</div>
-                    <h3 style={{
-                      fontFamily: 'var(--font-display)', color: 'var(--color-gold)',
-                      fontSize: '1.8rem', marginBottom: '0.8rem',
-                    }}>
-                      Cofre Aberto!
-                    </h3>
-                    <p style={{
-                      fontFamily: 'var(--font-elegant)', color: 'var(--color-text-muted)',
-                      fontSize: '0.9rem', marginBottom: '1.5rem', fontStyle: 'italic',
-                    }}>
-                      Seu código exclusivo:
-                    </p>
-                    <div style={{
-                      background: 'rgba(0,0,0,0.4)', border: '1px dashed var(--color-rose)',
-                      padding: '1.2rem', borderRadius: '12px',
-                    }}>
-                      <span style={{
-                        fontFamily: 'monospace', color: '#fff',
-                        fontSize: '1.8rem', letterSpacing: '0.2em', fontWeight: 'bold'
+                    <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                      <div style={{ fontSize: '3rem', marginBottom: '0.8rem' }}>💌</div>
+                      <h3 style={{
+                        fontFamily: 'var(--font-display)', color: 'var(--color-gold)',
+                        fontSize: '1.6rem', marginBottom: '0.5rem',
                       }}>
-                        YURELINDAO
-                      </span>
+                        Cofre Aberto!
+                      </h3>
+                      <p style={{
+                        fontFamily: 'var(--font-elegant)', color: 'var(--color-text-muted)',
+                        fontSize: '0.95rem', fontStyle: 'italic', lineHeight: 1.6,
+                      }}>
+                        Escreva seus 3 desejos para o nosso casamento.<br/>
+                        <span style={{ fontSize: '0.8rem', opacity: 0.7 }}>Só você vai ver. Eu juro que não vou espiar. 🙈</span>
+                      </p>
                     </div>
+
+                    {!wishesSaved ? (
+                      <>
+                        {[0, 1, 2].map((i) => (
+                          <div key={i} style={{ marginBottom: '1rem' }}>
+                            <label style={{
+                              fontFamily: 'var(--font-elegant)',
+                              color: 'var(--color-gold-light)',
+                              fontSize: '0.85rem',
+                              letterSpacing: '0.1em',
+                              textTransform: 'uppercase',
+                              display: 'block',
+                              marginBottom: '0.4rem',
+                            }}>
+                              {i === 0 ? '✨ 1° Desejo' : i === 1 ? '💛 2° Desejo' : '🌹 3° Desejo'}
+                            </label>
+                            <textarea
+                              value={wishes[i]}
+                              onChange={(e) => {
+                                const updated = [...wishes];
+                                updated[i] = e.target.value;
+                                setWishes(updated);
+                              }}
+                              placeholder={`Escreva seu ${i + 1}° desejo aqui...`}
+                              rows={2}
+                              style={{
+                                width: '100%',
+                                background: 'rgba(0,0,0,0.35)',
+                                border: '1px solid rgba(242,167,192,0.25)',
+                                borderRadius: '12px',
+                                padding: '0.8rem 1rem',
+                                color: '#fff',
+                                fontFamily: 'var(--font-elegant)',
+                                fontSize: '1rem',
+                                resize: 'vertical',
+                                outline: 'none',
+                                lineHeight: 1.6,
+                                boxSizing: 'border-box',
+                              }}
+                              onFocus={(e) => e.target.style.borderColor = 'rgba(201,169,110,0.6)'}
+                              onBlur={(e) => e.target.style.borderColor = 'rgba(242,167,192,0.25)'}
+                            />
+                          </div>
+                        ))}
+
+                        <motion.button
+                          onClick={handleSaveWishes}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          disabled={wishes.filter(w => w.trim()).length < 3}
+                          style={{
+                            marginTop: '1rem',
+                            width: '100%',
+                            background: wishes.filter(w => w.trim()).length < 3
+                              ? 'rgba(255,255,255,0.05)'
+                              : 'linear-gradient(135deg, rgba(201,169,110,0.3), rgba(242,167,192,0.3))',
+                            border: '1px solid rgba(201,169,110,0.5)',
+                            borderRadius: '50px',
+                            padding: '1rem',
+                            color: wishes.filter(w => w.trim()).length < 3 ? 'rgba(255,255,255,0.3)' : 'var(--color-gold-light)',
+                            fontFamily: 'var(--font-elegant)',
+                            fontSize: '1rem',
+                            cursor: wishes.filter(w => w.trim()).length < 3 ? 'not-allowed' : 'pointer',
+                            letterSpacing: '0.08em',
+                            transition: 'all 0.3s',
+                          }}
+                        >
+                          Guardar no Cofre 🔐
+                        </motion.button>
+                      </>
+                    ) : (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        style={{ textAlign: 'center', padding: '1.5rem 0' }}
+                      >
+                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔒</div>
+                        <p style={{
+                          fontFamily: 'var(--font-display)',
+                          color: 'var(--color-rose-light)',
+                          fontSize: '1.3rem',
+                          marginBottom: '0.5rem',
+                        }}>
+                          Desejos guardados!
+                        </p>
+                        <p style={{
+                          fontFamily: 'var(--font-elegant)',
+                          color: 'var(--color-text-muted)',
+                          fontSize: '0.9rem',
+                          fontStyle: 'italic',
+                          lineHeight: 1.6,
+                        }}>
+                          Eles estão no cofre agora. Só o universo sabe. 🌌
+                        </p>
+                      </motion.div>
+                    )}
                   </motion.div>
                 )}
               </motion.div>

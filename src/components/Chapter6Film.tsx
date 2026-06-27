@@ -212,189 +212,187 @@ export default function Chapter6Film({ onNext }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            style={{ width: '100%', maxWidth: '900px', margin: '0 auto', padding: '0 1rem', position: 'relative' }}
-          >
-            <div style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '16/9',
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 50,
               background: '#000',
-              borderRadius: '16px',
-              overflow: 'hidden',
-              boxShadow: '0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(201,169,110,0.1)',
-              border: '1px solid rgba(201,169,110,0.2)'
-            }}>
-              
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  initial={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
-                  animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-                  transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-                  style={{ width: '100%', height: '100%' }}
-                >
-                  <video
-                    ref={videoRef}
-                    src={videos[currentIndex].src}
-                    playsInline
-                    autoPlay
-                    onEnded={nextVideo}
-                    // O volume do vídeo original fica mudo para ouvirmos a música!
-                    muted={true}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      // Cartoon/Cinematic Filter Style
-                      filter: 'saturate(1.8) contrast(1.25) brightness(1.1) sepia(0.15)',
-                    }}
-                  />
-                </motion.div>
-              </AnimatePresence>
-
-              {/* Video Overlay (Controls & Text) */}
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(0deg, rgba(10,5,7,0.9) 0%, rgba(10,5,7,0.4) 40%, transparent 100%)',
-                pointerEvents: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                padding: '2rem',
-              }}>
-                <motion.div
-                  key={`text-${currentIndex}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
-                >
-                  <h3 style={{
-                    fontFamily: 'var(--font-display)',
-                    color: 'var(--color-gold-light)',
-                    fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
-                    marginBottom: '0.5rem',
-                    textShadow: '0 2px 10px rgba(0,0,0,0.8)'
-                  }}>
-                    {videos[currentIndex].title}
-                  </h3>
-                  <p style={{
-                    fontFamily: 'var(--font-elegant)',
-                    color: 'rgba(255,255,255,0.9)',
-                    fontSize: 'clamp(0.9rem, 1.5vw, 1.1rem)',
-                    letterSpacing: '0.05em',
-                    textShadow: '0 1px 5px rgba(0,0,0,0.8)'
-                  }}>
-                    {videos[currentIndex].caption}
-                  </p>
-                </motion.div>
-              </div>
-
-              {/* Interactive Play/Pause Area */}
-              <div 
-                onClick={togglePlay}
-                style={{ position: 'absolute', inset: 0, cursor: 'pointer', zIndex: 10 }}
-              />
-
-              {/* Play Icon Overlay (when paused) */}
-              <AnimatePresence>
-                {!isPlaying && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.5 }}
-                    style={{
-                      position: 'absolute', top: '50%', left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: '80px', height: '80px',
-                      background: 'rgba(10,5,7,0.6)',
-                      borderRadius: '50%',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(201,169,110,0.4)',
-                      pointerEvents: 'none',
-                      zIndex: 20
-                    }}
-                  >
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--color-gold-light)" style={{ marginLeft: '4px' }}>
-                      <polygon points="5 3 19 12 5 21 5 3" />
-                    </svg>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Navigation Controls */}
-              <div style={{
-                position: 'absolute', bottom: '2rem', right: '2rem',
-                display: 'flex', gap: '1rem', zIndex: 20, pointerEvents: 'auto'
-              }}>
-                <button
-                  onClick={(e) => { e.stopPropagation(); prevVideo(); }}
-                  disabled={currentIndex === 0}
+            }}
+          >
+            {/* Video fullscreen */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                style={{ position: 'absolute', inset: 0 }}
+              >
+                <video
+                  ref={videoRef}
+                  src={videos[currentIndex].src}
+                  playsInline
+                  autoPlay
+                  onEnded={nextVideo}
+                  muted={true}
                   style={{
-                    width: '44px', height: '44px', borderRadius: '50%',
-                    background: currentIndex === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(201,169,110,0.2)',
-                    border: '1px solid rgba(201,169,110,0.3)', color: 'white',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: currentIndex === 0 ? 'default' : 'pointer',
-                    backdropFilter: 'blur(8px)', transition: 'all 0.3s ease'
-                  }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="15 18 9 12 15 6" />
-                  </svg>
-                </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); nextVideo(); }}
-                  style={{
-                    width: '44px', height: '44px', borderRadius: '50%',
-                    background: 'rgba(201,169,110,0.2)', border: '1px solid rgba(201,169,110,0.3)',
-                    color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', backdropFilter: 'blur(8px)', transition: 'all 0.3s ease'
-                  }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="9 18 15 12 9 6" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Indicators */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '1.5rem' }}>
-              {videos.map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    width: i === currentIndex ? '30px' : '8px', height: '8px',
-                    borderRadius: '4px', background: i === currentIndex ? 'var(--color-gold)' : 'rgba(201,169,110,0.2)',
-                    transition: 'all 0.4s ease'
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'saturate(1.8) contrast(1.25) brightness(1.05) sepia(0.1)',
                   }}
                 />
-              ))}
-            </div>
+              </motion.div>
+            </AnimatePresence>
 
-            {/* Next Chapter Button */}
-            <div style={{ textAlign: 'center', padding: '3rem 0 4rem' }}>
-              <motion.button
-                onClick={onNext}
-                initial={{ opacity: 0, y: 12 }}
+            {/* Dark gradient overlay */}
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.3) 100%)',
+              pointerEvents: 'none',
+              zIndex: 10,
+            }} />
+
+            {/* Click to pause overlay */}
+            <div
+              onClick={togglePlay}
+              style={{ position: 'absolute', inset: 0, cursor: 'pointer', zIndex: 20 }}
+            />
+
+            {/* Play/Pause icon (when paused) */}
+            <AnimatePresence>
+              {!isPlaying && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  style={{
+                    position: 'absolute', top: '50%', left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '90px', height: '90px',
+                    background: 'rgba(10,5,7,0.65)',
+                    borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    backdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(201,169,110,0.5)',
+                    pointerEvents: 'none',
+                    zIndex: 30,
+                  }}
+                >
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="var(--color-gold-light)" style={{ marginLeft: '4px' }}>
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Bottom HUD: title + caption + controls */}
+            <div style={{
+              position: 'absolute', bottom: 0, left: 0, right: 0,
+              padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 3rem)',
+              zIndex: 30,
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              gap: '1rem',
+            }}>
+              {/* Title & caption */}
+              <motion.div
+                key={`text-${currentIndex}`}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                style={{
-                  background: 'transparent', border: '1px solid rgba(242,167,192,0.3)',
-                  borderRadius: '50px', padding: '0.85rem 2.2rem',
-                  color: 'var(--color-rose)', fontFamily: 'var(--font-elegant)',
-                  fontSize: '1rem', cursor: 'pointer', letterSpacing: '0.1em', transition: 'all 0.4s ease',
-                }}
-                whileHover={{ scale: 1.05, borderColor: 'rgba(242,167,192,0.7)' }}
-                whileTap={{ scale: 0.97 }}
               >
-                Ir Para o Final
-              </motion.button>
-            </div>
+                <h3 style={{
+                  fontFamily: 'var(--font-display)',
+                  color: 'var(--color-gold-light)',
+                  fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
+                  marginBottom: '0.4rem',
+                  textShadow: '0 2px 15px rgba(0,0,0,0.9)',
+                }}>
+                  {videos[currentIndex].title}
+                </h3>
+                <p style={{
+                  fontFamily: 'var(--font-elegant)',
+                  color: 'rgba(255,255,255,0.85)',
+                  fontSize: 'clamp(0.9rem, 2vw, 1.2rem)',
+                  textShadow: '0 1px 8px rgba(0,0,0,0.9)',
+                  letterSpacing: '0.04em',
+                }}>
+                  {videos[currentIndex].caption}
+                </p>
 
+                {/* Dot indicators */}
+                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+                  {videos.map((_, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        width: i === currentIndex ? '28px' : '7px', height: '7px',
+                        borderRadius: '4px',
+                        background: i === currentIndex ? 'var(--color-gold)' : 'rgba(255,255,255,0.35)',
+                        transition: 'all 0.4s ease',
+                      }}
+                    />
+                  ))}
+                </div>
+              </motion.div>
+
+              {/* Navigation arrows + skip button */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', alignItems: 'flex-end' }}>
+                <div style={{ display: 'flex', gap: '0.7rem' }}>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); prevVideo(); }}
+                    style={{
+                      width: '50px', height: '50px', borderRadius: '50%',
+                      background: 'rgba(255,255,255,0.1)',
+                      border: '1px solid rgba(201,169,110,0.4)',
+                      color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', backdropFilter: 'blur(8px)', zIndex: 40,
+                    }}
+                  >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="15 18 9 12 15 6" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); nextVideo(); }}
+                    style={{
+                      width: '50px', height: '50px', borderRadius: '50%',
+                      background: 'rgba(201,169,110,0.25)',
+                      border: '1px solid rgba(201,169,110,0.5)',
+                      color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', backdropFilter: 'blur(8px)', zIndex: 40,
+                    }}
+                  >
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </button>
+                </div>
+
+                <motion.button
+                  onClick={(e) => { e.stopPropagation(); onNext(); }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.97 }}
+                  style={{
+                    background: 'rgba(0,0,0,0.4)',
+                    border: '1px solid rgba(242,167,192,0.4)',
+                    borderRadius: '50px',
+                    padding: '0.6rem 1.4rem',
+                    color: 'var(--color-rose-light)',
+                    fontFamily: 'var(--font-elegant)',
+                    fontSize: '0.9rem', cursor: 'pointer',
+                    letterSpacing: '0.08em',
+                    backdropFilter: 'blur(8px)',
+                    zIndex: 40,
+                  }}
+                >
+                  Pular →
+                </motion.button>
+              </div>
+            </div>
           </motion.div>
         )}
 
